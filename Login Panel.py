@@ -1,84 +1,106 @@
-import tkinter
-from tkinter.ttk import *
+from tkinter import *
+from tkinter import messagebox
 
-def login(U , P):
-    user_pass = {
-        'password' : '7981',
-        'username' : 'admin'
-        }
+root=Tk()
+root.title('Login')
+root.geometry('925x500+300+200')
+root.configure(bg="#fff")
+root.resizable(False,False)
 
-    U = U.lower()
-    if U not in user_pass:
-        S = "Username Not Found!"
-        condition_label.config(text=S,font=("tahoma',40,'italic'"),fg='red')
-        print(S)
-        
-#         continue
+userpass={
+    "admin":"1234"
+    }
 
-    elif user_pass[U] == P:
-        S = "Login Successful!"
-        print(S)
-        condition_label.config(text=S,font=("tahoma',40,'italic'"),fg='green')
-        return True
-            #break
-    else: 
-        S = "Incorrect Password!\nLogin Failed!"
-        print(S)
-        condition_label.config(text=S,font=("tahoma',40,'italic'"),fg='#ff0000')
-        exit(0)
+def signin(event='None'):
+    username=user.get()
+    password=code.get()
+    print(username)
+    print(userpass.keys())
+    if username in userpass.keys() and password in userpass.values():
+        screen=Toplevel(root)
+        screen.title("App")
+        screen.geometry('925x500+300+200')
+        screen.config(bg="white")
 
-def SignUp(U , P):
-    user_pass = {'Amin' : '7981'}
-    user_pass['{U}'] = '{P}'
+        Label(screen,text='Hello Everyone!',bg='#fff',font=('Calibri(Body)',50,'bold')).pack(expand=True)
 
-def GET():
-    U = user_entry.get()
-    P = pass_entry.get()
-    S = f'welcome {U}\nYour Password is: {P}'
-    print(S)
-    condition_label.config(text=S , font=("tahoma',40,'italic'"))
+        screen.mainloop()
+
+    elif username not in userpass.keys() and password not in userpass.values():
+        messagebox.showerror("Invalid","invalid username and password\nCreate a account first!")
+    
+    elif password not in userpass.values():
+        messagebox.showerror("Invalid","invalid password")
+    
+    elif username not in userpass.keys():
+        messagebox.showerror("Invalid","invalid username")
+
+def signup():
+    username=user.get()
+    password=code.get()
+    userpass[username]=password
+    print(userpass)
+    messagebox.showerror("OK","Sign Up was sucseccful")
 
 def QUIT(event='None'):
-    login_win.destroy()
+    root.destroy()
     quit()
 
-#Login panel
-login_win = tkinter.Tk()
-login_win.title('Login Panel')
-login_win.geometry('400x250')
-login_win.configure(bg="#333333")
-win_frame = tkinter.Frame(bg='#333333')
+img=PhotoImage(file=r"C:\Users\top.TOP-PC\Desktop\Code\py proj\Login Form\Calculator icon.png")
+Label(root,image=img,bg='white').place(x=40,y=40)
 
-# Panel Label
-panel_label = tkinter.Label(win_frame , text='Login' , bg='#333333' , fg='#FF3399' , font=('times' , 30 , 'bold'))
-panel_label.grid(row=0 , column=0 , columnspan=2)
+frame=Frame(root,width=350,height=350,bg="white")
+frame.place(x=480,y=70)
 
-# Label and Entry of username
-user_label = tkinter.Label(win_frame , text='Username: ' ,bg='#333333' , fg='#FF3399' , font=('times' , 20 , 'bold'))
-user_label.grid(row=1 , column=0)
-user_entry = tkinter.Entry(win_frame)
-user_entry.grid(row=1 , column=1)
-user_entry.focus_set()
+heading=Label(frame,text='Sign in',fg='#57a1f8',bg='white',font=('Microsoft yaHei UI Light',23,'bold'))
+heading.place(x=100,y=5)
 
-# Label and Entry of password
-pass_label = tkinter.Label(win_frame , text='Password: ' , bg='#333333' , fg='#FF3399', font=('times' , 20 , 'bold'))
-pass_label.grid(row=2 , column=0)
-pass_entry = tkinter.Entry(win_frame , show='*')
-pass_entry.grid(row=2 , column=1)
+######---------------------------------------------------------------------------------------
+def on_enter(e):
+    user.delete(0,'end')
 
-# Sign In button
-signin_button = tkinter.Button(win_frame , text='Sign In' , bg='#FF3399' , command=GET)
-signin_button.grid(row=3 , column=0 , columnspan=2)
+def on_leave(e):
+    name=user.get()
+    if name=='':
+        user.insert(0,'Username')
 
-# Sing Up button
-singup_button = tkinter.Button(win_frame , text='Sign Up' , bg='#FF3399' , command=SignUp)
-singup_button.grid(row=4 , column=0 , columnspan=2)
 
-# Label of login condition
-condition_label = tkinter.Label(win_frame , bg='#333333' , fg='#ffffff')
-condition_label.grid(row=5 , column=0 , columnspan=2)
+user=Entry(frame,width=25,fg='black',border=0,bg="white",font=('Microsoft yaHei UI Light',11))
+user.place(x=30,y=80)
+user.insert(0,'Username')
+user.bind('<FocusIn>',on_enter)
+user.bind('<FocusOut>',on_leave)
 
-login_win.bind('<Return>',GET)
-login_win.bind('<Escape>',QUIT)
-win_frame.pack()
-login_win.mainloop()
+
+Frame(frame,width=295,height=2,bg='black').place(x=25,y=107)
+
+######---------------------------------------------------------------------------------------
+def on_enter(e):
+    code.delete(0,'end')
+
+def on_leave(e):
+    name=code.get()
+    if name=='':
+        code.insert(0,'Password')
+
+
+code=Entry(frame,width=25,fg='black',border=0,bg="white",show='*',font=('Microsoft yaHei UI Light',11))
+code.place(x=30,y=150)
+code.insert(0,'Password')
+code.bind('<FocusIn>',on_enter)
+code.bind('<FocusOut>',on_leave)
+
+Frame(frame,width=295,height=2,bg='black').place(x=25,y=177)
+
+######---------------------------------------------------------------------------------------
+Button(frame,width=39,pady=7,text='Sign in',bg='#57a1f8',fg='white',border=0,command=signin).place(x=35,y=204)
+label=Label(frame,text="Don't have an account?",fg='black',bg='white',font=('Microsoft yaHei UI Light',9))
+label.place(x=75,y=270)
+
+sign_up=Button(frame,width=6,text='Sign up',border=0,bg='white',cursor='hand2',fg='#57a1f8',command=signup)
+sign_up.place(x=215,y=270)
+
+
+root.bind('<Return>',signin)
+root.bind('<Escape>',QUIT)
+root.mainloop()
