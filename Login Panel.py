@@ -1,8 +1,11 @@
 from tkinter import *
 from tkinter import messagebox
 import ast
+import os
 
-''' hello from saman '''
+
+print(os.getcwd())
+
 
 root = Tk()
 root.title('Login')
@@ -75,9 +78,7 @@ def signup_command():
     def sign():
         window.destroy()
 
-
-    img = PhotoImage(
-        file=r'C:\Users\top.TOP-PC\Desktop\Code\py proj\Login Form\SignUp.png')
+    img = PhotoImage(file=os.path.join(os.getcwd(), 'SignUp.png'))
     Label(window, image=img, border=0, bg='white').place(x=50, y=90)
 
     frame = Frame(window, width=350, height=390, bg='#fff')
@@ -172,7 +173,7 @@ def QUIT(event='None'):
     quit()
 
 
-img = PhotoImage(file=r"C:\Users\top.TOP-PC\Desktop\Code\py proj\Login Form\Login.png")
+img = PhotoImage(file=os.path.join(os.getcwd(), 'Login.png'))
 Label(root, image=img, bg='white').place(x=50, y=50)
 
 frame = Frame(root, width=350, height=350, bg="white")
